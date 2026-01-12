@@ -13,7 +13,7 @@ export default function Home() {
   useEffect(() => {
     async function fetchArticles() {
       const { data } = await supabase
-        .from('articles')
+        .from('articles_multilang')
         .select('*')
         .eq('published', true)
         .order('created_at', { ascending: false });
@@ -82,6 +82,16 @@ export default function Home() {
   };
 
   const t = translations[language];
+
+  // 언어별로 제목/내용 가져오기
+  const getTitle = (article: any) => {
+    return language === 'ko' ? article.title_ko : language === 'en' ? article.title_en : article.title_ja;
+  };
+
+  const getContent = (article: any) => {
+    const content = language === 'ko' ? article.content_ko : language === 'en' ? article.content_en : article.content_ja;
+    return content ? content.substring(0, 100) : '';
+  };
 
   return (
     <div className="min-h-screen bg-black text-white">
@@ -190,8 +200,8 @@ export default function Home() {
                   className="bg-gradient-to-br from-purple-900/30 to-pink-900/30 border border-purple-500/30 rounded-2xl p-6 hover:border-purple-500 transition-all cursor-pointer"
                 >
                   <div className="text-purple-400 text-sm mb-3">{article.category}</div>
-                  <h3 className="text-2xl font-bold mb-3">{article.title}</h3>
-                  <p className="text-gray-400 mb-4">{article.content.substring(0, 100)}...</p>
+                  <h3 className="text-2xl font-bold mb-3">{getTitle(article)}</h3>
+                  <p className="text-gray-400 mb-4">{getContent(article)}...</p>
                   <button className="text-pink-400 flex items-center gap-2">
                     Read More <ChevronRight size={16} />
                   </button>
