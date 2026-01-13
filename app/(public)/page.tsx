@@ -3,6 +3,7 @@
 import React, { useState, useEffect } from 'react';
 import { ShoppingCart, User, Play, ChevronRight, Sparkles } from 'lucide-react';
 import { supabase } from '@/lib/supabase';
+import Link from 'next/link';
 
 export default function Home() {
   const [language, setLanguage] = useState('ko');
@@ -83,7 +84,6 @@ export default function Home() {
 
   const t = translations[language];
 
-  // 언어별로 제목/내용 가져오기
   const getTitle = (article: any) => {
     return language === 'ko' ? article.title_ko : language === 'en' ? article.title_en : article.title_ja;
   };
@@ -195,17 +195,16 @@ export default function Home() {
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
             {articles.length > 0 ? (
               articles.slice(0, 3).map((article) => (
-                <div 
-                  key={article.id}
-                  className="bg-gradient-to-br from-purple-900/30 to-pink-900/30 border border-purple-500/30 rounded-2xl p-6 hover:border-purple-500 transition-all cursor-pointer"
-                >
-                  <div className="text-purple-400 text-sm mb-3">{article.category}</div>
-                  <h3 className="text-2xl font-bold mb-3">{getTitle(article)}</h3>
-                  <p className="text-gray-400 mb-4">{getContent(article)}...</p>
-                  <button className="text-pink-400 flex items-center gap-2">
-                    Read More <ChevronRight size={16} />
-                  </button>
-                </div>
+                <Link href={`/article/${article.id}`} key={article.id}>
+                  <div className="bg-gradient-to-br from-purple-900/30 to-pink-900/30 border border-purple-500/30 rounded-2xl p-6 hover:border-purple-500 transition-all cursor-pointer">
+                    <div className="text-purple-400 text-sm mb-3">{article.category}</div>
+                    <h3 className="text-2xl font-bold mb-3">{getTitle(article)}</h3>
+                    <p className="text-gray-400 mb-4">{getContent(article)}...</p>
+                    <button className="text-pink-400 flex items-center gap-2">
+                      Read More <ChevronRight size={16} />
+                    </button>
+                  </div>
+                </Link>
               ))
             ) : (
               <>
