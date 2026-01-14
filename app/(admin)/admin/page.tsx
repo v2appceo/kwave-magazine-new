@@ -3,7 +3,6 @@
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { supabase } from '@/lib/supabase';
-// import RichEditor from '@/components/admin/RichEditor'; // ← 임시 비활성화
 
 // ✅ HTML 태그 제거 함수 (DOM 의존성 제거)
 function stripHtml(html: string): string {
@@ -25,6 +24,7 @@ export default function AdminPage() {
   const [title, setTitle] = useState('');
   const [content, setContent] = useState('');
   const [category, setCategory] = useState('K-POP');
+  const [template, setTemplate] = useState('standard'); // ⭐ 템플릿 상태 추가
   const [isSubmitting, setIsSubmitting] = useState(false);
 
   // ✅ Gemini 번역 함수
@@ -90,7 +90,7 @@ Text: ${text}`;
         translateText(plainText, 'ja')
       ]);
 
-      // Supabase 저장
+      // Supabase 저장 (⭐ template 추가)
       const { error } = await supabase.from('articles_multilang').insert([
         {
           title_ko: title,
@@ -100,6 +100,7 @@ Text: ${text}`;
           content_en: contentEn || plainText,
           content_ja: contentJa || plainText,
           category,
+          template, // ⭐ 템플릿 저장
           published: true
         },
       ]);
@@ -109,6 +110,7 @@ Text: ${text}`;
       alert('✅ 기사가 등록되었습니다!');
       setTitle('');
       setContent('');
+      setTemplate('standard'); // ⭐ 템플릿 초기화
       router.push('/'); 
       
     } catch (error) {
@@ -153,6 +155,47 @@ Text: ${text}`;
               <option value="K-FOOD">K-FOOD</option>
               <option value="K-CULTURE">K-CULTURE</option>
             </select>
+          </div>
+
+          {/* ⭐ 템플릿 선택 추가 */}
+          <div>
+            <label className="block text-sm font-medium mb-2">
+              📐 레이아웃 템플릿 선택
+            </label>
+            <select
+              value={template}
+              onChange={(e) => setTemplate(e.target.value)}
+              className="w-full px-4 py-2 bg-gray-800 border border-gray-700 rounded-lg focus:outline-none focus:border-purple-500"
+            >
+              <option value="standard">📄 Standard - 일반 기사</option>
+              <option value="cover-story">🎬 Cover Story - 대형 히어로 이미지</option>
+              <option value="interview">🎤 Interview - 인터뷰 Q&A 스타일</option>
+              <option value="photo-essay">📸 Photo Essay - 사진 중심 레이아웃</option>
+            </select>
+            
+            {/* 템플릿 설명 */}
+            <div className="mt-3 p-4 bg-gray-800/50 rounded-lg border border-gray-700">
+              {template === 'standard' && (
+                <p className="text-sm text-gray-400">
+                  📄 <strong>Standard</strong>: 일반적인 매거진 스타일. 제목 → 본문 → 이미지 순서로 표시됩니다.
+                </p>
+              )}
+              {template === 'cover-story' && (
+                <p className="text-sm text-gray-400">
+                  🎬 <strong>Cover Story</strong>: 전체 화면 히어로 이미지가 상단에 표시되고, 제목이 이미지 위에 오버레이됩니다. 2단 레이아웃으로 본문이 표시됩니다.
+                </p>
+              )}
+              {template === 'interview' && (
+                <p className="text-sm text-gray-400">
+                  🎤 <strong>Interview</strong>: Q&A 스타일. 질문과 답변이 구분되어 표시되며, 인터뷰 대상의 프로필이 강조됩니다.
+                </p>
+              )}
+              {template === 'photo-essay' && (
+                <p className="text-sm text-gray-400">
+                  📸 <strong>Photo Essay</strong>: 사진 중심. 큰 이미지들이 캡션과 함께 표시되는 비주얼 중심 레이아웃입니다.
+                </p>
+              )}
+            </div>
           </div>
 
           {/* 내용 입력 - 임시 textarea */}
