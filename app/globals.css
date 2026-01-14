@@ -1,26 +1,125 @@
 @import "tailwindcss";
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
+/* ============================================
+   매거진 스타일 아티클 레이아웃
+   ============================================ */
+.magazine-article {
+  max-width: 900px;
+  margin: 0 auto;
+}
+/* 첫 번째 이미지 = 히어로 이미지 */
+.magazine-article img:first-of-type {
+  width: 100%;
+  height: 60vh;
+  min-height: 400px;
+  object-fit: cover;
+  margin: -2rem 0 3rem 0;
+  border-radius: 0;
+}
+/* 일반 이미지 = 전체 너비 */
+EOF
+/* ============================================
+   매거진 스타일 아티클 레이아웃
+   ============================================ */
+
+.magazine-article {
+  max-width: 900px;
+  margin: 0 auto;
 }
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+/* 첫 번째 이미지 = 히어로 이미지 */
+.magazine-article img:first-of-type {
+  width: 100%;
+  height: 60vh;
+  min-height: 400px;
+  object-fit: cover;
+  margin: -2rem 0 3rem 0;
+  border-radius: 0;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+/* 일반 이미지 = 전체 너비 */
+.magazine-article img {
+  width: 100%;
+  height: auto;
+  margin: 3rem 0;
+  border-radius: 8px;
 }
 
-body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+/* 본문 텍스트 = 매거진 타이포그래피 */
+.magazine-article p {
+  font-size: 1.125rem;
+  line-height: 1.8;
+  margin: 1.5rem 0;
+  color: #e5e5e5;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+}
+
+/* 첫 단락 드롭캡 효과 */
+.magazine-article > p:first-of-type::first-letter {
+  font-size: 4rem;
+  float: left;
+  line-height: 0.8;
+  margin: 0.1em 0.15em 0 0;
+  color: #a855f7;
+  font-weight: 700;
+}
+
+/* 제목 스타일 */
+.magazine-article h1 {
+  font-size: 3.5rem;
+  line-height: 1.1;
+  margin-bottom: 2rem;
+  font-weight: 800;
+}
+
+/* 섹션 헤딩 */
+.magazine-article h2 {
+  font-size: 2rem;
+  margin-top: 4rem;
+  margin-bottom: 1rem;
+  border-left: 4px solid #a855f7;
+  padding-left: 1rem;
+  font-weight: 700;
+}
+
+/* 인용구 강조 */
+.magazine-article blockquote {
+  font-size: 1.5rem;
+  font-style: italic;
+  margin: 3rem 0;
+  padding: 2rem;
+  background: linear-gradient(135deg, rgba(168, 85, 247, 0.1) 0%, rgba(236, 72, 153, 0.1) 100%);
+  border-left: 4px solid #a855f7;
+  border-radius: 8px;
+}
+
+/* YouTube 비디오 */
+.magazine-article iframe {
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  margin: 3rem 0;
+  border-radius: 8px;
+}
+
+/* 링크 */
+.magazine-article a {
+  color: #a855f7;
+  text-decoration: underline;
+  transition: color 0.2s;
+}
+
+.magazine-article a:hover {
+  color: #ec4899;
+}
+
+/* 리스트 */
+.magazine-article ul,
+.magazine-article ol {
+  margin: 2rem 0;
+  padding-left: 2rem;
+}
+
+.magazine-article li {
+  margin: 0.75rem 0;
+  line-height: 1.6;
 }
