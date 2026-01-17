@@ -53,21 +53,6 @@ export default async function ArticleDetail({ params }: PageProps) {
     <div className="min-h-screen bg-gray-900">
       {/* 템플릿 렌더링 */}
       {renderTemplate()}
-
-      {/* 하단 네비게이션 (모든 템플릿 공통) */}
-      <div className="max-w-7xl mx-auto px-4 pb-16">
-        <div className="pt-8 border-t border-gray-800">
-          <Link 
-            href="/"
-            className="inline-flex items-center text-gray-400 hover:text-white transition-colors"
-          >
-            <svg className="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 19l-7-7m0 0l7-7m-7 7h18" />
-            </svg>
-            목록으로 돌아가기
-          </Link>
-        </div>
-      </div>
     </div>
   );
 }
